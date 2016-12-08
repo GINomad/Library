@@ -1,0 +1,53 @@
+﻿@model LibraryApp.ViewModels.BookViewModel
+
+@{
+    ViewBag.Title = "Take";
+}
+
+<h2>Take</h2>
+
+<div>
+    <h4>BookViewModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Quantity)
+        </dd>
+
+        <dt>
+           @Html.DisplayNameFor(model=>model.Author)
+        </dt>
+        @foreach (var item in Model.Author)
+        {
+            <dd>
+                @Html.DisplayFor(model => item.Name)
+            </dd>
+        }
+        
+
+    </dl>
+</div>
+@using (Html.BeginForm("Take","Home",new { model = Model}))
+{
+    @Html.HiddenFor(model => model.ID)
+    @Html.HiddenFor(model => model.Quantity)
+    <input type="submit" value="Take book" class="btn btn-success">
+}
+
+
+<p>
+|
+    @Html.ActionLink("Back to List", "Index")
+</p>

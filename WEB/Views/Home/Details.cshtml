@@ -1,0 +1,35 @@
+﻿@model LibraryApp.ViewModels.BookInfoModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Book)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Book)
+        </dd>
+        @foreach (var item in Model.HistoryRecords)
+        {
+            <dt>
+                @Html.DisplayNameFor(x=> item.User):  @Html.DisplayNameFor(x=>item.Date) 
+            </dt>
+            <dd>
+                @Html.DisplayFor(x=>item.User):  @Html.DisplayFor(x=>item.Date)
+            </dd>
+
+        }
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>

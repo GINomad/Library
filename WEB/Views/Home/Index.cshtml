@@ -1,0 +1,65 @@
+﻿@model PagedList.IPagedList<LibraryApp.ViewModels.BookViewModel>
+@using PagedList.Mvc; 
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@{
+    ViewBag.Title = "Index";
+   
+}
+
+<h2>Library @ViewData["Result"]</h2>
+
+<p>
+    @Html.ActionLink("Create New", "CreateBook", "Admin", null,null)
+</p>
+@using (Html.BeginForm("Index", "Home"))
+{
+    <p>
+   @Html.TextBox("SearchString", ViewBag.CurrentFilter as string) &nbsp;
+       Availabe: @Html.CheckBox("Available", System.Convert.ToBoolean(ViewBag.Available as string)) &nbsp;
+    <input type="submit" value="Search" />
+        
+       
+        </p>
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink("Название", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        <th>
+            Количество
+        </th>
+       
+        <th>
+            @Html.ActionLink("Автор","Index", new { sortOrder = ViewBag.AuthorSortParm, currentFilter = ViewBag.CurrentFilter })
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Quantity)
+        </td>
+        <td>
+            @if (item.Author.Count != 0)
+            {
+                @Html.DisplayFor(modelItem => item.Author.First().Name)
+            }
+            else { }
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "UpdateBook", "Admin", new { id = item.ID }, null) |
+            @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+            @Html.ActionLink("Delete", "DeleteBook", "Admin", new { id = item.ID }, null) |
+            @Html.ActionLink("Take Book", "Take", "Home", new { id = item.ID }, null)
+        </td>
+    </tr>
+}
+
+</table>
+<br />
+Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount 
+@Html.PagedListPager(Model, page =>Url.Action("Index",new { page}))
